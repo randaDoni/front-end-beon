@@ -1,9 +1,7 @@
-.kelolaPenghuni{
-  min-height: 100vh ;
-  max-width: 80vw;
-  max-height: 80vh;
+.rumah{
   .dataTable {
- // batas tinggi agar tidak overflow
+    max-width: 80vw;
+    max-height: 80vh; // batas tinggi agar tidak overflow
     overflow: auto; // scroll jika melebihi batas
   }
   .info{

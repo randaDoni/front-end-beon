@@ -16,6 +16,8 @@ import IuranBulanan from "./pages/iuranBulanan/IuranBulanan";
 import MasterDataMonthly from "./pages/masterDataMonthly/MasterDataMonthly";
 import MasterDataAccidential from "./pages/masterDataAccidential/MasterDataAccidential";
 import IuranAccidential from "./pages/iuranAccidential/IuranAccidential";
+import SummaryAccidential from "./pages/summaryAccidential/summaryAccidential";
+import SummaryMonthly from "./pages/summaryMonthly/SummaryMonthly";
 function App() {
 
 
@@ -93,6 +95,14 @@ function App() {
         {
           path: "/iuran-dadakan",
           element: <IuranAccidential />,
+        },
+        {
+          path: "/summary-bulanan",
+          element: <SummaryMonthly />,
+        },
+        {
+          path: "/summary-dadakan",
+          element: < SummaryAccidential/>,
         },
         // {
         //   path: "/rumah/:id",

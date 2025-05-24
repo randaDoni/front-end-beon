@@ -4,6 +4,7 @@ import DataTable from "../../components/dataTable/DataTable";
 import Add from "../../components/add/Add";
 import { GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const months = [
   "January", "February", "March", "April", "May", "June",
@@ -158,7 +159,11 @@ const IuranBulanan = () => {
 
   const handlePaymentSubmit = async () => {
     if (!selectedHouse || !selectedItem || !selectedMonth || !selectedYear) {
-      alert("Mohon lengkapi semua isian sebelum melakukan pembayaran.");
+      Swal.fire({
+        icon: 'warning',
+        title: 'Lengkapi Isian',
+        text: 'Mohon lengkapi semua isian sebelum melakukan pembayaran.',
+      });
       return;
     }
 
@@ -180,12 +185,20 @@ const IuranBulanan = () => {
           },
         }
       );
-      alert("Pembayaran berhasil");
+      Swal.fire({
+        icon: 'success',
+        title: 'Pembayaran Selesai',
+        text: 'Pembayaran selesai.',
+      });
       setShowPaymentForm(false);
       fetchHouse();
     } catch (err: any) {
       console.error(err);
-      alert("Gagal melakukan pembayaran");
+            Swal.fire({
+        icon: 'warning',
+        title: 'Lengkapi Isian',
+        text: 'Mohon lengkapi semua isian sebelum melakukan pembayaran.',
+      });;
     }
   };
 
@@ -254,8 +267,8 @@ const IuranBulanan = () => {
           <h3>Form Pembayaran</h3>
 
           <select value={paymentType} onChange={(e) => setPaymentType(e.target.value)}>
-            <option value="bulanan">Bulanan</option>
-            <option value="tahunan">Tahunan</option>
+            <option value="bulanan">bulanan</option>
+            <option value="tahunan">tahunan</option>
           </select>
 
           <select value={selectedHouse} onChange={(e) => setSelectedHouse(e.target.value)}>

@@ -4,6 +4,7 @@ import DataTable from "../../components/dataTable/DataTable";
 import Add from "../../components/add/Add";
 import { GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const months = [
   "January", "February", "March", "April", "May", "June",
@@ -141,9 +142,16 @@ const IuranAccidential = () => {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
+        },params: {
+          bulan: selectedMonth,
+          tahun: selectedYear,
         },
       });
-      setItems(res.data);
+      const items = res.data.map((row: any) => ({
+        id: row.id,
+        name: row.name,
+      }));
+      setItems(items);
     } catch (err) {
       console.error("Gagal mengambil data item");
     }
@@ -158,7 +166,11 @@ const IuranAccidential = () => {
 
   const handlePaymentSubmit = async () => {
     if (!selectedHouse || !selectedItem || !selectedMonth || !selectedYear) {
-      alert("Mohon lengkapi semua isian sebelum melakukan pembayaran.");
+      Swal.fire({
+        icon: 'warning',
+        title: 'Lengkapi Isian',
+        text: 'Mohon lengkapi semua isian sebelum melakukan pembayaran.',
+      });
       return;
     }
 
@@ -180,12 +192,20 @@ const IuranAccidential = () => {
           },
         }
       );
-      alert("Pembayaran berhasil");
+      Swal.fire({
+        icon: 'success',
+        title: 'Pembayaran Selesai',
+        text: 'Pembayaran selesai.',
+      });
       setShowPaymentForm(false);
       fetchHouse();
     } catch (err: any) {
       console.error(err);
-      alert("Gagal melakukan pembayaran");
+            Swal.fire({
+        icon: 'warning',
+        title: 'Lengkapi Isian',
+        text: 'Mohon lengkapi semua isian sebelum melakukan pembayaran.',
+      });;
     }
   };
 
@@ -267,7 +287,7 @@ const IuranAccidential = () => {
 
           <select value={selectedItem} onChange={(e) => setSelectedItem(e.target.value)}>
             <option value="">Pilih Item yang Dibayar</option>
-            {items.map((item: any) => (
+            {items.map((item) => (
               <option key={item.id} value={item.id}>{item.name}</option>
             ))}
           </select>

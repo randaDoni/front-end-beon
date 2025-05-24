@@ -1,18 +1,63 @@
-.rumah{
-  .dataTable {
-    max-width: 80vw;
-    max-height: 80vh; // batas tinggi agar tidak overflow
-    overflow: auto; // scroll jika melebihi batas
-  }
-  .info{
+@import "../../styles/variables.scss"; // kalau variabel breakpoint ada di file ini
+@import "../../styles/responsive.scss";
+.MasterDataMonthly {
+  padding: 20px;
+  max-width: 80vw;
+  .info {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 20px;
-    margin-bottom: 20px;
+    flex-wrap: wrap;
+    
 
-    button{
-      padding: 5px;
+    h1 {
+      font-size: 24px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 6px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #1565c0;
+      }
+    }
+
+    @include md {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+
+      h1 {
+        font-size: 20px;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  p {
+    font-size: 16px;
+    text-align: center;
+    margin-top: 20px;
+
+    @include sm {
+      font-size: 14px;
+    }
+  }
+
+  .DataTable {
+    margin-top: 20px;
+
+    @include sm {
+      overflow-x: auto;
     }
   }
 }

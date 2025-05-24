@@ -7,7 +7,7 @@ export const menu = [
         id: 1,
         title: "Homepage",
         url: "/",
-        icon: "chart.svg",
+        icon: "monitor.svg",
       },
       // {
       //   id: 2,
@@ -25,13 +25,13 @@ export const menu = [
         id: 1,
         title: "Master Data Monthly",
         url: "/master-data-monthly",
-        icon: "chart.svg",
+        icon: "money.svg",
       },      
       {
         id: 2,
         title: "Master Data Accidential",
         url: "/master-data-accidential",
-        icon: "chart.svg",
+        icon: "money.svg",
       },
       {
         id: 3,
@@ -62,7 +62,7 @@ export const menu = [
         id: 3,
         title: "Kelola Penghuni",
         url: "/kelola-penghuni",
-        icon: "home.svg",
+        icon: "apartments.svg",
       },
       {
         id: 4,
@@ -75,6 +75,18 @@ export const menu = [
         title: "Iuran Dadakan ",
         url: "/iuran-dadakan",
         icon: "order.svg",
+      },
+      {
+        id: 5,
+        title: "Laporan Iuran Bulanan ",
+        url: "/summary-bulanan",
+        icon: "chart.svg",
+      },
+            {
+        id: 5,
+        title: "Laporan Iuran Dadakan ",
+        url: "/summary-dadakan",
+        icon: "chart.svg",
       },
     ],
   },

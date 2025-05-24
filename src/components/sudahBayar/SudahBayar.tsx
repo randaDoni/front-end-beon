@@ -1,26 +1,31 @@
-import "./sudahBayar.scss"
-import {topDealUsers} from "../../data.ts"
+import "./sudahBayar.scss";
+import { useEffect, useState } from "react";
+import { topDealUsers } from "../../data.ts";
 
 const SudahBayar = () => {
+  const [currentTime, setCurrentTime] = useState<string>("");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString("id-ID", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+      setCurrentTime(timeString);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="sudahBayar">
-      <h1>Sudah Membayar Bulan ini</h1>
-      <div className="list">
-        {topDealUsers.map(user=>(
-          <div className="listItem" key={user.id}>
-            <div className="user">
-              <img src={user.img} alt="" />
-              <div className="userTexts">
-                <span className="username">{user.username}</span>
-                <span className="email">{user.email}</span>
-              </div>
-            </div>
-            <span className="amount">${user.amount}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
+      <h1>Hallo Pak RT</h1>
+      <p>Saat ini sedang jam <strong>{currentTime}</strong></p>
 
-export default SudahBayar
+    </div>
+  );
+};
+
+export default SudahBayar;
