@@ -94,6 +94,7 @@ const Add = ({ slug, columns, setOpen, editData, refreshData, endpoint }: Props)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
+    console.log (name, value);
     setFormData((prev: any) => ({
       ...prev,
       [name]: value,
@@ -207,6 +208,22 @@ const Add = ({ slug, columns, setOpen, editData, refreshData, endpoint }: Props)
                     <option value="">Pilih Status</option>
                     <option value="sudah">Sudah</option>
                     <option value="belum">Belum</option>
+                  </select>
+                ) : slug === "MasterDataAccidential" && column.field === "bulan" ? (
+                  <select name="bulan" value={formData.bulan || ""} onChange={handleChange}>
+                    <option value="">Pilih Bulan</option>
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
                   </select>
                 ) : column.field === "contract_status" ? (
                   <select name="contract_status" value={formData.contract_status || ""} onChange={handleChange}>

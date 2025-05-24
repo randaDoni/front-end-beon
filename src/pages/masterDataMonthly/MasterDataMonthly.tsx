@@ -58,7 +58,7 @@ const MasterDataMonthly = () => {
   return (
     <div className="MasterDataMonthly">
       <div className="info">
-        <h1>MasterDataMonthly</h1>
+        <h1>Master Data Iuran Bulanan</h1>
         <button onClick={() => {setOpen(true); setEditData(null);}}>Tambahkan Master Data Monthly</button>
       </div>
 

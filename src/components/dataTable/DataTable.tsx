@@ -73,9 +73,9 @@ const DataTable = (props: Props) => {
     <div className="action">
       {props.slug !== "IuranBulanan" && (
         <>
-          <Link to={`/${props.slug}/${params.row.id}`}>
+          {/* <Link to={`/${props.slug}/${params.row.id}`}>
             <img src="/view.svg" alt="View" />
-          </Link>
+          </Link> */}
           <div className="edit" onClick={() => props.onEdit(params.row)}>
             <img src="/edit.svg" alt="Edit" />
           </div>

@@ -19,13 +19,25 @@ const MasterDataAccidential = () => {
       field: "name",
       type: "string",
       headerName: "Nama Pembayaran",
-      width: 350,
-    },    
+      width: 150,
+    },   
+    {
+      field: "bulan",
+      type: "string",
+      headerName: "Bulan",
+      width: 150,
+    }, 
+    {
+      field: "tahun",
+      type: "string",
+      headerName: "Tahun",
+      width: 150,
+    }, 
     {
       field: "price",
       type: "string",
       headerName: "Harga",
-      width: 350,
+      width: 250,
     },
   ];
 
@@ -58,7 +70,7 @@ const MasterDataAccidential = () => {
   return (
     <div className="MasterDataAccidential">
       <div className="info">
-        <h1>MasterDataAccidential</h1>
+        <h1>Master Data Accidential</h1>
         <button onClick={() => {setOpen(true); setEditData(null);}}>Tambahkan Master Data Monthly</button>
       </div>
 
