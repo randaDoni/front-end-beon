@@ -117,7 +117,7 @@ const IuranAccidential = () => {
         },
       });
       const houseData = res.data.map((row: any) => ({
-        id: row.house_id,
+        id: row.id,
         alamat: row.alamat,
       }));
       setHouses(houseData);
@@ -149,6 +149,11 @@ const IuranAccidential = () => {
   }, [showPaymentForm, selectedMonth, selectedYear]);
 
   const handlePaymentSubmit = async () => {
+    if (!selectedHouse || !selectedItem || !selectedMonth || !selectedYear) {
+      alert("Mohon lengkapi semua isian sebelum melakukan pembayaran.");
+      return;
+    }
+
     try {
       const token = localStorage.getItem("token");
       await axios.post(
@@ -158,7 +163,7 @@ const IuranAccidential = () => {
           tahun: selectedYear,
           house_id: selectedHouse,
           item_id: selectedItem,
-          tipe_pembayaran: paymentType,
+          // tipe_pembayaran: paymentType,
         },
         {
           headers: {
@@ -170,7 +175,8 @@ const IuranAccidential = () => {
       alert("Pembayaran berhasil");
       setShowPaymentForm(false);
       fetchHouse();
-    } catch (err) {
+    } catch (err: any) {
+      console.error(err);
       alert("Gagal melakukan pembayaran");
     }
   };
@@ -178,10 +184,8 @@ const IuranAccidential = () => {
   return (
     <div className="IuranAccidential">
       <div className="info">
-        <h1>Iuran Bulanan Tambahan</h1>
+        <h1>Iuran Bulanan Ndadak</h1>
         <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
-
-
           <select value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
             <option value="">Pilih Bulan</option>
             {months.map((month, idx) => (
@@ -202,7 +206,6 @@ const IuranAccidential = () => {
         </div>
 
         <div style={{ display: "flex", gap: "1rem" }}>
-          {/* <button onClick={() => { setOpen(true); setEditData(null); }}>Tambahkan IuranAccidential</button> */}
           <button disabled={!selectedMonth || !selectedYear} onClick={() => setShowPaymentForm(true)}>
             Bayar Iuran
           </button>
@@ -215,7 +218,7 @@ const IuranAccidential = () => {
         <p style={{ color: "red" }}>{error}</p>
       ) : (
         <DataTable
-          slug="IuranAccidential"
+          slug="IuranBulanan"
           columns={columns}
           rows={rows}
           refreshData={fetchHouse}
@@ -229,7 +232,7 @@ const IuranAccidential = () => {
 
       {open && (
         <Add
-          slug="IuranAccidential"
+          slug="IuranBulanan"
           columns={columns}
           setOpen={setOpen}
           endpoint="http://localhost:8000/api/contribution_accidential/"
@@ -241,17 +244,11 @@ const IuranAccidential = () => {
       {showPaymentForm && (
         <div className="payment-form">
           <h3>Form Pembayaran</h3>
-          <select value={paymentType} onChange={(e) => setPaymentType(e.target.value)}>
-            <option value="Bulanan">Bulanan</option>
-            <option value="Tahunan">Tahunan</option>
-          </select>
 
-          <select value={selectedHouse} onChange={(e) => setSelectedHouse(e.target.value)}>
-            <option value="">Pilih Rumah</option>
-            {months.map((house, idx) => (
-              <option key={idx} value={house}>{house}</option>
-            ))}
-          </select>
+          {/* <select value={paymentType} onChange={(e) => setPaymentType(e.target.value)}>
+            <option value="bulanan">Bulanan</option>
+            <option value="tahunan">Tahunan</option>
+          </select> */}
 
           <select value={selectedHouse} onChange={(e) => setSelectedHouse(e.target.value)}>
             <option value="">Pilih Alamat</option>
@@ -263,12 +260,17 @@ const IuranAccidential = () => {
           <select value={selectedItem} onChange={(e) => setSelectedItem(e.target.value)}>
             <option value="">Pilih Item yang Dibayar</option>
             {items.map((item: any) => (
-              <option key={item.id} value={item.name}>{item.name}</option>
+              <option key={item.id} value={item.id}>{item.name}</option>
             ))}
           </select>
 
           <div style={{ marginTop: "1rem" }}>
-            <button onClick={handlePaymentSubmit}>Kirim Pembayaran</button>
+            <button
+              onClick={handlePaymentSubmit}
+              disabled={!selectedHouse || !selectedItem || !selectedMonth || !selectedYear}
+            >
+              Kirim Pembayaran
+            </button>
             <button onClick={() => setShowPaymentForm(false)} style={{ marginLeft: "1rem" }}>Batal</button>
           </div>
         </div>
