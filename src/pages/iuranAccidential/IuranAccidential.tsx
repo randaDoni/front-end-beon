@@ -76,6 +76,14 @@ const IuranAccidential = () => {
           </span>
         );
       },
+    },    
+    {
+      field: "item_name",
+      headerName: "Item Yang Dibayar",
+      width: 250,
+      renderCell: (params) => (
+        params.value ? params.value : <span style={{ color: "#888" }}>-</span>
+      ),
     },
   ];
 
