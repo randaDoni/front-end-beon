@@ -48,11 +48,18 @@ const DataTable = (props: Props) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      Swal.fire("Berhasil!", "Data telah dihapus.", "success");
+
+      const successMessage =
+        props.slug === "IuranBulanan"
+          ? "Data sudah dikembalikan menjadi belum bayar."
+          : "Data telah dihapus.";
+
+      Swal.fire("Berhasil!", successMessage, "success");
       await props.refreshData(); // jika perlu refresh tabel
     } catch (error) {
       Swal.fire("Gagal", "Terjadi kesalahan saat menghapus data.", "error");
     }
+
   };
 
 
@@ -63,26 +70,33 @@ const DataTable = (props: Props) => {
     width: 200,
     renderCell: (params) => {
       return (
-        <div className="action">
-
+    <div className="action">
+      {props.slug !== "IuranBulanan" && (
+        <>
           <Link to={`/${props.slug}/${params.row.id}`}>
-            <img src="/view.svg" alt="" />
+            <img src="/view.svg" alt="View" />
           </Link>
           <div className="edit" onClick={() => props.onEdit(params.row)}>
-            <img src="/edit.svg" alt="" />
+            <img src="/edit.svg" alt="Edit" />
           </div>
-          <div
-            className="delete"
-            onClick={() =>
-              props.slug === "KelolaPenghuni"
-                ? handleDelete(params.row.house_resident_id)
-                : handleDelete(params.row.id)
-            }
-          >
-            <img src="/delete.svg" alt="Delete" />
-          </div>
-
-        </div>
+        </>
+      )}
+      
+      <div
+        className="delete"
+        onClick={() => {
+          if (props.slug === "KelolaPenghuni") {
+            handleDelete(params.row.house_resident_id);
+          } else if (props.slug === "IuranBulanan") {
+            handleDelete(params.row.contribution_monthly_id);
+          } else {
+            handleDelete(params.row.id);
+          }
+        }}
+      >
+        <img src="/delete.svg" alt="Delete" />
+      </div>
+    </div>
       );
     },
   };

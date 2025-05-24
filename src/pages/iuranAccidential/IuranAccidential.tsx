@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./IuranBulanan.scss";
+import "./iuranAccidential.scss";
 import DataTable from "../../components/dataTable/DataTable";
 import Add from "../../components/add/Add";
 import { GridColDef } from "@mui/x-data-grid";
@@ -12,7 +12,7 @@ const months = [
 
 const years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - 5 + i);
 
-const IuranBulanan = () => {
+const IuranAccidential = () => {
   const [open, setOpen] = useState(false);
   const [rows, setRows] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -84,7 +84,7 @@ const IuranBulanan = () => {
     setIsLoading(true);
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:8000/api/contribution_monthly", {
+      const response = await axios.get("http://localhost:8000/api/contribution_accidential", {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -97,7 +97,7 @@ const IuranBulanan = () => {
 
       setRows(response.data);
     } catch (err: any) {
-      setError("Gagal memuat data IuranBulanan");
+      setError("Gagal memuat data IuranAccidential");
     } finally {
       setIsLoading(false);
     }
@@ -106,7 +106,7 @@ const IuranBulanan = () => {
   const fetchHouseAddresses = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:8000/api/contribution_monthly", {
+      const res = await axios.get("http://localhost:8000/api/contribution_accidential", {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -117,7 +117,7 @@ const IuranBulanan = () => {
         },
       });
       const houseData = res.data.map((row: any) => ({
-        id: row.id,
+        id: row.house_id,
         alamat: row.alamat,
       }));
       setHouses(houseData);
@@ -129,7 +129,7 @@ const IuranBulanan = () => {
   const fetchItems = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:8000/api/contribution_monthly/Item", {
+      const res = await axios.get("http://localhost:8000/api/contribution_accidential/Item", {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -149,15 +149,10 @@ const IuranBulanan = () => {
   }, [showPaymentForm, selectedMonth, selectedYear]);
 
   const handlePaymentSubmit = async () => {
-    if (!selectedHouse || !selectedItem || !selectedMonth || !selectedYear) {
-      alert("Mohon lengkapi semua isian sebelum melakukan pembayaran.");
-      return;
-    }
-
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        "http://localhost:8000/api/contribution_monthly/payment",
+        "http://localhost:8000/api/contribution_accidential/payment",
         {
           bulan: selectedMonth,
           tahun: selectedYear,
@@ -175,17 +170,18 @@ const IuranBulanan = () => {
       alert("Pembayaran berhasil");
       setShowPaymentForm(false);
       fetchHouse();
-    } catch (err: any) {
-      console.error(err);
+    } catch (err) {
       alert("Gagal melakukan pembayaran");
     }
   };
 
   return (
-    <div className="IuranBulanan">
+    <div className="IuranAccidential">
       <div className="info">
-        <h1>Iuran Bulanan Pasti</h1>
+        <h1>Iuran Bulanan Tambahan</h1>
         <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
+
+
           <select value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)}>
             <option value="">Pilih Bulan</option>
             {months.map((month, idx) => (
@@ -206,6 +202,7 @@ const IuranBulanan = () => {
         </div>
 
         <div style={{ display: "flex", gap: "1rem" }}>
+          {/* <button onClick={() => { setOpen(true); setEditData(null); }}>Tambahkan IuranAccidential</button> */}
           <button disabled={!selectedMonth || !selectedYear} onClick={() => setShowPaymentForm(true)}>
             Bayar Iuran
           </button>
@@ -218,11 +215,11 @@ const IuranBulanan = () => {
         <p style={{ color: "red" }}>{error}</p>
       ) : (
         <DataTable
-          slug="IuranBulanan"
+          slug="IuranAccidential"
           columns={columns}
           rows={rows}
           refreshData={fetchHouse}
-          endpoint="http://localhost:8000/api/contribution_monthly/"
+          endpoint="http://localhost:8000/api/contribution_accidential/"
           onEdit={(row) => {
             setEditData(row);
             setOpen(true);
@@ -232,10 +229,10 @@ const IuranBulanan = () => {
 
       {open && (
         <Add
-          slug="IuranBulanan"
+          slug="IuranAccidential"
           columns={columns}
           setOpen={setOpen}
-          endpoint="http://localhost:8000/api/contribution_monthly/"
+          endpoint="http://localhost:8000/api/contribution_accidential/"
           editData={editData}
           refreshData={fetchHouse}
         />
@@ -244,10 +241,16 @@ const IuranBulanan = () => {
       {showPaymentForm && (
         <div className="payment-form">
           <h3>Form Pembayaran</h3>
-
           <select value={paymentType} onChange={(e) => setPaymentType(e.target.value)}>
-            <option value="bulanan">Bulanan</option>
-            <option value="tahunan">Tahunan</option>
+            <option value="Bulanan">Bulanan</option>
+            <option value="Tahunan">Tahunan</option>
+          </select>
+
+          <select value={selectedHouse} onChange={(e) => setSelectedHouse(e.target.value)}>
+            <option value="">Pilih Rumah</option>
+            {months.map((house, idx) => (
+              <option key={idx} value={house}>{house}</option>
+            ))}
           </select>
 
           <select value={selectedHouse} onChange={(e) => setSelectedHouse(e.target.value)}>
@@ -260,17 +263,12 @@ const IuranBulanan = () => {
           <select value={selectedItem} onChange={(e) => setSelectedItem(e.target.value)}>
             <option value="">Pilih Item yang Dibayar</option>
             {items.map((item: any) => (
-              <option key={item.id} value={item.id}>{item.name}</option>
+              <option key={item.id} value={item.name}>{item.name}</option>
             ))}
           </select>
 
           <div style={{ marginTop: "1rem" }}>
-            <button
-              onClick={handlePaymentSubmit}
-              disabled={!selectedHouse || !selectedItem || !selectedMonth || !selectedYear}
-            >
-              Kirim Pembayaran
-            </button>
+            <button onClick={handlePaymentSubmit}>Kirim Pembayaran</button>
             <button onClick={() => setShowPaymentForm(false)} style={{ marginLeft: "1rem" }}>Batal</button>
           </div>
         </div>
@@ -279,4 +277,4 @@ const IuranBulanan = () => {
   );
 };
 
-export default IuranBulanan;
+export default IuranAccidential;

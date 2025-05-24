@@ -15,6 +15,7 @@ import KelolaPenghuni from "./pages/kelolaPenghuni/kelolaPenghuni";
 import IuranBulanan from "./pages/iuranBulanan/IuranBulanan";
 import MasterDataMonthly from "./pages/masterDataMonthly/MasterDataMonthly";
 import MasterDataAccidential from "./pages/masterDataAccidential/MasterDataAccidential";
+import IuranAccidential from "./pages/iuranAccidential/IuranAccidential";
 function App() {
 
 
@@ -88,6 +89,10 @@ function App() {
         {
           path: "/iuran-bulanan",
           element: <IuranBulanan />,
+        },
+        {
+          path: "/iuran-dadakan",
+          element: <IuranAccidential />,
         },
         // {
         //   path: "/rumah/:id",
